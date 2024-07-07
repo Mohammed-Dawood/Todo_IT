@@ -8,10 +8,13 @@ public class TodoItemTask {
 
     // Constructor
     public TodoItemTask(int id, TodoItem todoItem, Person assignee) {
+        if (todoItem == null) {
+            throw new IllegalArgumentException("TodoItem cannot be null");
+        }
         this.id = id;
         this.todoItem = todoItem;
         this.assignee = assignee;
-        this.assigned = (assignee != null); // Set assigned to true if assignee is not null
+        this.assigned = assignee != null;
     }
 
     // Getters and Setters
@@ -27,11 +30,18 @@ public class TodoItemTask {
         return assigned;
     }
 
+    private void setAssigned(boolean assigned) {
+        this.assigned = assigned;
+    }
+
     public TodoItem getTodoItem() {
         return todoItem;
     }
 
     public void setTodoItem(TodoItem todoItem) {
+        if (todoItem == null) {
+            throw new IllegalArgumentException("TodoItem cannot be null");
+        }
         this.todoItem = todoItem;
     }
 
@@ -41,13 +51,13 @@ public class TodoItemTask {
 
     public void setAssignee(Person assignee) {
         this.assignee = assignee;
-        this.assigned = (assignee != null); // Update assigned based on assignee presence
+        this.assigned = assignee != null;
     }
 
     // Method to get summary of the TodoItemTask object
     public String getSummary() {
-        return "TodoItemTask{id: " + id + ", assigned: " + assigned + ", todoItem: " +
-                (todoItem != null ? todoItem.getTitle() : "null") +
+        return "TodoItemTask{id: " + id + ", assigned: " + assigned +
+                ", todoItem: " + todoItem.getSummary() +
                 ", assignee: " + (assignee != null ? assignee.getSummary() : "null") + "}";
     }
 }
