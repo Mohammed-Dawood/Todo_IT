@@ -61,6 +61,6 @@ public class Person {
 
     // Method to get summary of the Person object
     public String getSummary() {
-        return "Person{id: " + id + ", name: " + firstName + " " + lastName + ", email: " + email + "}";
+        return "{id: " + id + ", name: " + firstName + " " + lastName + ", email: " + email + "}";
     }
 }
