@@ -1,10 +1,13 @@
 package se.lexicon.model;
 
+import java.util.Objects;
+
 public class Person {
     private int id;
     private String firstName;
     private String lastName;
     private String email;
+    private AppUser credentials; // Reference to AppUser
 
     // Constructor
     public Person(int id, String firstName, String lastName, String email) {
@@ -65,8 +68,39 @@ public class Person {
         this.email = email;
     }
 
-    // Method to get summary of the Person object
-    public String getSummary() {
-        return "{id: " + id + ", name: " + firstName + " " + lastName + ", email: " + email + "}";
+    public AppUser getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(AppUser credentials) {
+        this.credentials = credentials;
+    }
+
+    // Override toString() method that doesn’t print out credentials
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    // Override equals() and hashCode() excluding credentials
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id &&
+                firstName.equals(person.firstName) &&
+                lastName.equals(person.lastName) &&
+                email.equals(person.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email);
     }
 }
