@@ -5,19 +5,22 @@ import java.time.LocalDate;
 public class TodoItem {
     private int id;
     private String title;
-    private String taskDescription;
+    private String description;
     private LocalDate deadline;
     private boolean done;
     private Person creator;
 
     // Constructor
-    public TodoItem(int id, String title, String taskDescription, LocalDate deadline, boolean done, Person creator) {
-        if (title == null || title.isEmpty() || deadline == null || creator == null) {
-            throw new IllegalArgumentException("Title, deadline, and creator cannot be null or empty");
+    public TodoItem(int id, String title, String description, LocalDate deadline, boolean done, Person creator) {
+        if (title == null || title.isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be null or empty");
+        }
+        if (deadline == null) {
+            throw new IllegalArgumentException("Deadline cannot be null");
         }
         this.id = id;
         this.title = title;
-        this.taskDescription = taskDescription;
+        this.description = description;
         this.deadline = deadline;
         this.done = done;
         this.creator = creator;
@@ -43,12 +46,12 @@ public class TodoItem {
         this.title = title;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDate getDeadline() {
@@ -75,16 +78,14 @@ public class TodoItem {
     }
 
     public void setCreator(Person creator) {
-        if (creator == null) {
-            throw new IllegalArgumentException("Creator cannot be null");
-        }
         this.creator = creator;
     }
 
     // Method to get summary of the TodoItem object
     public String getSummary() {
-        return "TodoItem{id: " + id + ", title: " + title + ", description: " + taskDescription +
-                ", deadline: " + deadline + ", done: " + done + ", creator: " + creator.getSummary() + "}";
+        return "TodoItem{id: " + id + ", title: " + title + ", description: " + description +
+                ", deadline: " + deadline + ", done: " + done + ", creator: " +
+                (creator != null ? creator.getSummary() : "null") + "}";
     }
 
     // Method to check if the TodoItem is overdue

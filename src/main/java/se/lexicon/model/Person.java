@@ -8,8 +8,14 @@ public class Person {
 
     // Constructor
     public Person(int id, String firstName, String lastName, String email) {
-        if (firstName == null || lastName == null || email == null) {
-            throw new IllegalArgumentException("Fields cannot be null");
+        if (firstName == null) {
+            throw new IllegalArgumentException("FirstName cannot be null");
+        }
+        if (lastName == null) {
+            throw new IllegalArgumentException("LastName cannot be null");
+        }
+        if (email == null) {
+            throw new IllegalArgumentException("Email cannot be null");
         }
         this.id = id;
         this.firstName = firstName;
@@ -32,7 +38,7 @@ public class Person {
 
     public void setFirstName(String firstName) {
         if (firstName == null) {
-            throw new IllegalArgumentException("First name cannot be null");
+            throw new IllegalArgumentException("FirstName cannot be null");
         }
         this.firstName = firstName;
     }
@@ -43,7 +49,7 @@ public class Person {
 
     public void setLastName(String lastName) {
         if (lastName == null) {
-            throw new IllegalArgumentException("Last name cannot be null");
+            throw new IllegalArgumentException("LastName cannot be null");
         }
         this.lastName = lastName;
     }
