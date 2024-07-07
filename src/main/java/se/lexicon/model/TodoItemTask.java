@@ -1,22 +1,17 @@
 package se.lexicon.model;
 
-import java.time.LocalDate;
-
 public class TodoItemTask {
     private int id;
-    private boolean assigned; // Encapsulated boolean
-    private String todoItem;
+    private boolean assigned;
+    private TodoItem todoItem;
     private Person assignee;
 
     // Constructor
-    public TodoItemTask(int id, String todoItem, Person assignee) {
-        if (todoItem == null || assignee == null) {
-            throw new IllegalArgumentException("TodoItem and assignee cannot be null");
-        }
+    public TodoItemTask(int id, TodoItem todoItem, Person assignee) {
         this.id = id;
         this.todoItem = todoItem;
         this.assignee = assignee;
-        this.assigned = true; // Automatically set to true if assignee is not null
+        this.assigned = (assignee != null); // Set assigned to true if assignee is not null
     }
 
     // Getters and Setters
@@ -32,14 +27,11 @@ public class TodoItemTask {
         return assigned;
     }
 
-    public String getTodoItem() {
+    public TodoItem getTodoItem() {
         return todoItem;
     }
 
-    public void setTodoItem(String todoItem) {
-        if (todoItem == null) {
-            throw new IllegalArgumentException("TodoItem cannot be null");
-        }
+    public void setTodoItem(TodoItem todoItem) {
         this.todoItem = todoItem;
     }
 
@@ -48,16 +40,14 @@ public class TodoItemTask {
     }
 
     public void setAssignee(Person assignee) {
-        if (assignee == null) {
-            throw new IllegalArgumentException("Assignee cannot be null");
-        }
         this.assignee = assignee;
-        this.assigned = true; // Ensure assigned is true if assignee is set
+        this.assigned = (assignee != null); // Update assigned based on assignee presence
     }
 
     // Method to get summary of the TodoItemTask object
     public String getSummary() {
-        return "TodoItemTask{id: " + id + ", assigned: " + assigned + ", todoItem: " + todoItem +
-                ", assignee: " + assignee.getSummary() + "}";
+        return "TodoItemTask{id: " + id + ", assigned: " + assigned + ", todoItem: " +
+                (todoItem != null ? todoItem.getTitle() : "null") +
+                ", assignee: " + (assignee != null ? assignee.getSummary() : "null") + "}";
     }
 }
