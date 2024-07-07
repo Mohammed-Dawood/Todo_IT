@@ -1,6 +1,7 @@
 package se.lexicon.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class TodoItem {
     private int id;
@@ -81,15 +82,38 @@ public class TodoItem {
         this.creator = creator;
     }
 
-    // Method to get summary of the TodoItem object
-    public String getSummary() {
-        return "TodoItem{id: " + id + ", title: " + title + ", description: " + description +
-                ", deadline: " + deadline + ", done: " + done + ", creator: " +
-                (creator != null ? creator.getSummary() : "null") + "}";
-    }
-
     // Method to check if the TodoItem is overdue
     public boolean isOverdue() {
         return LocalDate.now().isAfter(deadline);
+    }
+
+    // Override toString() excluding Person object
+    @Override
+    public String toString() {
+        return "TodoItem{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", deadline=" + deadline +
+                ", done=" + done +
+                '}';
+    }
+
+    // Override equals() and hashCode() excluding Person object
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TodoItem todoItem = (TodoItem) o;
+        return id == todoItem.id &&
+                done == todoItem.done &&
+                title.equals(todoItem.title) &&
+                Objects.equals(description, todoItem.description) &&
+                deadline.equals(todoItem.deadline);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, deadline, done);
     }
 }
