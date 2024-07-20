@@ -1,30 +1,28 @@
 package se.lexicon.model;
 
-import java.time.LocalDate;
 import java.util.Objects;
+import java.time.LocalDate;
 
 public class TodoItem {
     private int id;
     private String title;
     private String description;
-    private LocalDate deadline;
+    private LocalDate deadLine;
     private boolean done;
     private Person creator;
 
     // Constructor
-    public TodoItem(int id, String title, String description, LocalDate deadline, boolean done, Person creator) {
-        if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title cannot be null or empty");
-        }
-        if (deadline == null) {
-            throw new IllegalArgumentException("Deadline cannot be null");
-        }
+    public TodoItem(int id, String title, String description, LocalDate deadLine, boolean done, Person creator) {
+        this(title, description, deadLine, done, creator);
         this.id = id;
-        this.title = title;
-        this.description = description;
-        this.deadline = deadline;
-        this.done = done;
-        this.creator = creator;
+    }
+
+    public TodoItem(String title, String description, LocalDate deadLine, boolean done, Person creator) {
+        setTitle(title);
+        setDescription(description);
+        setDeadLine(deadLine);
+        setDone(done);
+        setCreator(creator);
     }
 
     // Getters and Setters
@@ -41,9 +39,7 @@ public class TodoItem {
     }
 
     public void setTitle(String title) {
-        if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title cannot be null or empty");
-        }
+        if (title == null || title.trim().isEmpty()) throw new IllegalArgumentException("title is null or empty.");
         this.title = title;
     }
 
@@ -56,14 +52,14 @@ public class TodoItem {
     }
 
     public LocalDate getDeadline() {
-        return deadline;
+        return deadLine;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadLine(LocalDate deadline) {
         if (deadline == null) {
             throw new IllegalArgumentException("Deadline cannot be null");
         }
-        this.deadline = deadline;
+        this.deadLine = deadline;
     }
 
     public boolean isDone() {
@@ -79,12 +75,13 @@ public class TodoItem {
     }
 
     public void setCreator(Person creator) {
+        if (creator == null) throw new IllegalArgumentException("creator is null.");
         this.creator = creator;
     }
 
     // Method to check if the TodoItem is overdue
     public boolean isOverdue() {
-        return LocalDate.now().isAfter(deadline);
+        return LocalDate.now().isAfter(deadLine);
     }
 
     // Override toString() excluding Person object
@@ -94,7 +91,7 @@ public class TodoItem {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", deadline=" + deadline +
+                ", deadline=" + deadLine +
                 ", done=" + done +
                 '}';
     }
@@ -109,11 +106,11 @@ public class TodoItem {
                 done == todoItem.done &&
                 title.equals(todoItem.title) &&
                 Objects.equals(description, todoItem.description) &&
-                deadline.equals(todoItem.deadline);
+                deadLine.equals(todoItem.deadLine);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, deadline, done);
+        return Objects.hash(id, title, description, deadLine, done);
     }
 }

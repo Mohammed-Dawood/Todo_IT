@@ -10,20 +10,20 @@ public class Person {
     private AppUser credentials; // Reference to AppUser
 
     // Constructor
-    public Person(int id, String firstName, String lastName, String email) {
-        if (firstName == null) {
-            throw new IllegalArgumentException("FirstName cannot be null");
-        }
-        if (lastName == null) {
-            throw new IllegalArgumentException("LastName cannot be null");
-        }
-        if (email == null) {
-            throw new IllegalArgumentException("Email cannot be null");
-        }
+    public Person() {
+    }
+
+    public Person(String firstName, String lastName, String email, AppUser credentials) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmail(email);
+        setCredentials(credentials);
+    }
+
+    public Person(Integer id, String firstName, String lastName, String email, AppUser credentials) {
+        this(firstName, lastName, email, credentials);
+        if (id == null) throw new RuntimeException("id is null");
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
     }
 
     // Getters and Setters
@@ -40,9 +40,8 @@ public class Person {
     }
 
     public void setFirstName(String firstName) {
-        if (firstName == null) {
-            throw new IllegalArgumentException("FirstName cannot be null");
-        }
+        if (firstName == null || firstName.trim().isEmpty())
+            throw new IllegalArgumentException("firstName is null or empty.");
         this.firstName = firstName;
     }
 
@@ -51,9 +50,8 @@ public class Person {
     }
 
     public void setLastName(String lastName) {
-        if (lastName == null) {
-            throw new IllegalArgumentException("LastName cannot be null");
-        }
+        if (lastName == null || lastName.trim().isEmpty())
+            throw new IllegalArgumentException("lastName is null or empty.");
         this.lastName = lastName;
     }
 
@@ -62,9 +60,8 @@ public class Person {
     }
 
     public void setEmail(String email) {
-        if (email == null) {
-            throw new IllegalArgumentException("Email cannot be null");
-        }
+        if (email == null || email.trim().isEmpty())
+            throw new IllegalArgumentException("email is null or empty.");
         this.email = email;
     }
 
@@ -73,6 +70,7 @@ public class Person {
     }
 
     public void setCredentials(AppUser credentials) {
+        if (credentials == null) throw new IllegalArgumentException("credentials is null.");
         this.credentials = credentials;
     }
 

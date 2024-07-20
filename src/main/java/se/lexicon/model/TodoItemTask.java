@@ -9,14 +9,18 @@ public class TodoItemTask {
     private Person assignee;
 
     // Constructor
+    public TodoItemTask(TodoItem todoItem, Person assignee) {
+        setTodoItem(todoItem);
+        setAssignee(assignee);
+    }
+
+    public TodoItemTask(TodoItem todoItem) {
+        setTodoItem(todoItem);
+    }
+
     public TodoItemTask(int id, TodoItem todoItem, Person assignee) {
-        if (todoItem == null) {
-            throw new IllegalArgumentException("TodoItem cannot be null");
-        }
+        this(todoItem, assignee);
         this.id = id;
-        this.todoItem = todoItem;
-        this.assignee = assignee;
-        this.assigned = assignee != null;
     }
 
     // Getters and Setters

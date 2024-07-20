@@ -20,20 +20,18 @@ public class AppUser {
     }
 
     public void setUsername(String username) {
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty");
-        }
-        this.username = username.trim();
+        if (username == null || username.trim().isEmpty())
+            throw new IllegalArgumentException("username is null or empty.");
+        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        if (password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be null or empty");
-        }
+    public void setPassword(String password) throws IllegalArgumentException {
+        if (password == null || password.trim().isEmpty())
+            throw new IllegalArgumentException("password is null or empty.");
         this.password = password;
     }
 
@@ -42,9 +40,8 @@ public class AppUser {
     }
 
     public void setRole(AppRole role) {
-        if (role == null) {
-            throw new IllegalArgumentException("Role cannot be null");
-        }
+        if (role == null) throw new IllegalArgumentException("role is null or empty.");
+
         this.role = role;
     }
 
@@ -72,3 +69,6 @@ public class AppUser {
                 role == appUser.role;
     }
 }
+
+
+
