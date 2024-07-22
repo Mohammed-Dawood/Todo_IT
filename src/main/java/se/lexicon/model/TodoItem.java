@@ -13,11 +13,7 @@ public class TodoItem {
 
     // Constructor
     public TodoItem(int id, String title, String description, LocalDate deadLine, boolean done, Person creator) {
-        this(title, description, deadLine, done, creator);
-        this.id = id;
-    }
-
-    public TodoItem(String title, String description, LocalDate deadLine, boolean done, Person creator) {
+        setId(id);
         setTitle(title);
         setDescription(description);
         setDeadLine(deadLine);
@@ -39,7 +35,8 @@ public class TodoItem {
     }
 
     public void setTitle(String title) {
-        if (title == null || title.trim().isEmpty()) throw new IllegalArgumentException("title is null or empty.");
+        if (title == null || title.trim().isEmpty())
+            throw new IllegalArgumentException("title is null or empty.");
         this.title = title;
     }
 
@@ -75,7 +72,8 @@ public class TodoItem {
     }
 
     public void setCreator(Person creator) {
-        if (creator == null) throw new IllegalArgumentException("creator is null.");
+        if (creator == null)
+            throw new IllegalArgumentException("creator is null.");
         this.creator = creator;
     }
 

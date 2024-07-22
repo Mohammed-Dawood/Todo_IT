@@ -9,18 +9,11 @@ public class TodoItemTask {
     private Person assignee;
 
     // Constructor
-    public TodoItemTask(TodoItem todoItem, Person assignee) {
+    public TodoItemTask(int id, boolean assigned, TodoItem todoItem, Person assignee) {
+        setId(id);
+        setAssigned(assigned);
         setTodoItem(todoItem);
         setAssignee(assignee);
-    }
-
-    public TodoItemTask(TodoItem todoItem) {
-        setTodoItem(todoItem);
-    }
-
-    public TodoItemTask(int id, TodoItem todoItem, Person assignee) {
-        this(todoItem, assignee);
-        this.id = id;
     }
 
     // Getters and Setters
@@ -67,6 +60,7 @@ public class TodoItemTask {
                 "id=" + id +
                 ", assigned=" + assigned +
                 ", todoItem=" + todoItem +
+                ", assignee=" + assignee +
                 '}';
     }
 
