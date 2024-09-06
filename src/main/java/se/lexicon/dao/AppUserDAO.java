@@ -1,12 +1,14 @@
-package se.lexicon.data.appuser;
+package se.lexicon.dao;
 
 import se.lexicon.model.AppUser;
+
 import java.util.List;
 
 public interface AppUserDAO {
-    void persist(AppUser appUser);
+
+    AppUser persist(AppUser appUser);
     AppUser findByUsername(String username);
     List<AppUser> findAll();
-    boolean remove(AppUser appUser);
-}
+    void remove(String username);
 
+}
