@@ -1,33 +1,33 @@
 package se.lexicon.model;
 
-import java.util.Objects;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class TodoItem {
-    private int id;
+    private int todoId;
     private String title;
     private String description;
-    private LocalDate deadLine;
+    private LocalDate deadline;
     private boolean done;
-    private Person creator;
+    private Person assignee; // Reference to Person
 
     // Constructor
-    public TodoItem(int id, String title, String description, LocalDate deadLine, boolean done, Person creator) {
-        setId(id);
-        setTitle(title);
-        setDescription(description);
-        setDeadLine(deadLine);
-        setDone(done);
-        setCreator(creator);
+    public TodoItem(int todoId, String title, String description, LocalDate deadline, boolean done, Person assignee) {
+        this.todoId = todoId;
+        this.title = title;
+        this.description = description;
+        this.deadline = deadline;
+        this.done = done;
+        this.assignee = assignee;
     }
 
     // Getters and Setters
-    public int getId() {
-        return id;
+    public int getTodoId() {
+        return todoId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTodoId(int todoId) {
+        this.todoId = todoId;
     }
 
     public String getTitle() {
@@ -35,8 +35,6 @@ public class TodoItem {
     }
 
     public void setTitle(String title) {
-        if (title == null || title.trim().isEmpty())
-            throw new IllegalArgumentException("title is null or empty.");
         this.title = title;
     }
 
@@ -49,14 +47,11 @@ public class TodoItem {
     }
 
     public LocalDate getDeadline() {
-        return deadLine;
+        return deadline;
     }
 
-    public void setDeadLine(LocalDate deadline) {
-        if (deadline == null) {
-            throw new IllegalArgumentException("Deadline cannot be null");
-        }
-        this.deadLine = deadline;
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
     public boolean isDone() {
@@ -67,48 +62,42 @@ public class TodoItem {
         this.done = done;
     }
 
-    public Person getCreator() {
-        return creator;
+    public Person getAssignee() {
+        return assignee;
     }
 
-    public void setCreator(Person creator) {
-        if (creator == null)
-            throw new IllegalArgumentException("creator is null.");
-        this.creator = creator;
+    public void setAssignee(Person assignee) {
+        this.assignee = assignee;
     }
 
-    // Method to check if the TodoItem is overdue
-    public boolean isOverdue() {
-        return LocalDate.now().isAfter(deadLine);
-    }
-
-    // Override toString() excluding Person object
+    // Override toString, equals, and hashCode methods
     @Override
     public String toString() {
         return "TodoItem{" +
-                "id=" + id +
+                "todoId=" + todoId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", deadline=" + deadLine +
+                ", deadline=" + deadline +
                 ", done=" + done +
+                ", assignee=" + assignee +
                 '}';
     }
 
-    // Override equals() and hashCode() excluding Person object
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TodoItem todoItem = (TodoItem) o;
-        return id == todoItem.id &&
+        return todoId == todoItem.todoId &&
                 done == todoItem.done &&
-                title.equals(todoItem.title) &&
+                Objects.equals(title, todoItem.title) &&
                 Objects.equals(description, todoItem.description) &&
-                deadLine.equals(todoItem.deadLine);
+                Objects.equals(deadline, todoItem.deadline) &&
+                Objects.equals(assignee, todoItem.assignee);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, deadLine, done);
+        return Objects.hash(todoId, title, description, deadline, done, assignee);
     }
 }
