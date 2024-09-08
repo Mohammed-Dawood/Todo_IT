@@ -19,7 +19,7 @@ public class TodoItemDAOImpl implements TodoItemDAO {
     @Override
     public TodoItem findById(int id) {
         return todoItems.stream()
-                .filter(todoItem -> todoItem.getId() == id)
+                .filter(todoItem -> todoItem.getTodoId() == id)
                 .findFirst()
                 .orElse(null);
     }
@@ -46,7 +46,8 @@ public class TodoItemDAOImpl implements TodoItemDAO {
     @Override
     public List<TodoItem> findByPersonId(int personId) {
         return todoItems.stream()
-                .filter(todoItem -> todoItem.getCreator().getId() == personId)
+                .filter(todoItem -> todoItem.getAssignee() != null && // Assuming getAssignee() returns a Person object
+                        todoItem.getAssignee().getPersonId() == personId) // Adjust method names accordingly
                 .collect(Collectors.toList());
     }
 
