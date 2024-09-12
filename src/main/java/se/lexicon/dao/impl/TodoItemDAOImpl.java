@@ -14,8 +14,6 @@ import java.util.Collection;
 public class TodoItemDAOImpl implements TodoItemDAO {
 
 
-    private static final String SELECT_TODOITEMS_BY_DONE_STATUS =
-            "SELECT * FROM todo_item WHERE done = ?";
     private static final String SELECT_TODOITEMS_BY_ASSIGNEE_ID =
             "SELECT * FROM todo_item WHERE assignee_id = ?";
     private static final String SELECT_TODOITEMS_BY_UNASSIGNED =
@@ -106,5 +104,33 @@ public class TodoItemDAOImpl implements TodoItemDAO {
         }
         return null;
     }
+
+    @Override
+    public Collection<TodoItem> findByDoneStatus(boolean doneStatus) {
+        Collection<TodoItem> todoItems = new ArrayList<>();
+        String SQL = "SELECT * FROM todo_item WHERE done = ?";
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setBoolean(1, doneStatus);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                TodoItem todoItem = new TodoItem(
+                        resultSet.getInt("todo_id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("deadline").toLocalDate(),
+                        resultSet.getBoolean("done"),
+                        resultSet.getInt("assignee_id")
+                );
+                todoItems.add(todoItem);
+            }
+        } catch (SQLException e) {
+            throw new MySQLException("Error finding TodoItems by done status", e);
+        }
+        return todoItems;
+    }
+
 
 }

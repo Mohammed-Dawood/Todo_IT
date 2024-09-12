@@ -10,6 +10,7 @@ public interface TodoItemDAO {
     TodoItem create(TodoItem todoItem);
     Collection<TodoItem> findAll();
     TodoItem findById(int todoId);
+    Collection<TodoItem> findByDoneStatus(boolean doneStatus);
 
 
 }

@@ -53,6 +53,9 @@ public class App {
 
         // Find person by ID
         System.out.println("Found person: " + todoItemDAO.findById(1));
+
+        // Find By Done Status
+        System.out.println("Found person: " + todoItemDAO.findByDoneStatus(true));
     }
 }
 
