@@ -3,40 +3,43 @@ package se.lexicon;
 import se.lexicon.model.Person;
 import se.lexicon.dao.impl.PersonDAOImpl;
 
+import java.util.Collection;
+
 public class App {
     public static void main(String[] args) {
 
         System.out.println("It Is Working....");
 
         // PersonDAOImpl test
-        /*PersonDAOImpl persondaoimpl = new PersonDAOImpl();
+        PersonDAOImpl persondaoimpl = new PersonDAOImpl();
 
         // Create a new person
-        Person newPerson = new Person(0, "John", "Doe");
-        persondaoimpl.create(newPerson);
-        System.out.println("Created person: " + newPerson);
+        persondaoimpl.create(new Person("Mohammed", "Dawood"));
+        System.out.println("Created person successfully");
 
         // Find all persons
         System.out.println("All persons: " + persondaoimpl.findAll());
 
         // Find person by ID
-        Person foundPerson = persondaoimpl.findById(newPerson.getPersonId());
-        System.out.println("Found person: " + foundPerson);
+        Person foundPersonById = persondaoimpl.findById(1);
+        System.out.println("Found person: " + foundPersonById);
+
+        // findByName
+        Collection<Person> foundPersonByName = persondaoimpl.findByName("dawood");
+        System.out.println("Found person: " + foundPersonByName);
 
         // Update person
-        foundPerson.setFirstName("Jane");
-        persondaoimpl.update(foundPerson);
-        System.out.println("Updated person: " + persondaoimpl.findById(foundPerson.getPersonId()));
+        Person NewPerson = persondaoimpl.update(new Person(5, "Test", "Testson"));
+        System.out.println("Updated person: " + NewPerson);
 
         // Delete person
-        boolean deleted = persondaoimpl.deleteById(foundPerson.getPersonId());
-        System.out.println("Deleted person: " + deleted);*/
-
-
-        // TodoItemDAOImpl test
-
+        boolean deleted = persondaoimpl.deleteById(3);
+        if (deleted) {
+            System.out.println("person Deleted successfully: ");
+        } else {
+            System.out.println("Person with this ID not found ");
+        }
 
     }
-
 }
 
