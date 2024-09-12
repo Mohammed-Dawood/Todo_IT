@@ -12,5 +12,6 @@ public interface TodoItemDAO {
     TodoItem findById(int todoId);
     Collection<TodoItem> findByDoneStatus(boolean doneStatus);
 
+    boolean deleteById(int todoId);
 
 }

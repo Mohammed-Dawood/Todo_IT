@@ -20,8 +20,7 @@ public class TodoItemDAOImpl implements TodoItemDAO {
             "SELECT * FROM todo_item WHERE assignee_id IS NULL";
     private static final String UPDATE_TODOITEM_SQL =
             "UPDATE todo_item SET title = ?, description = ?, deadline = ?, done = ?, assignee_id = ? WHERE todo_id = ?";
-    private static final String DELETE_TODOITEM_BY_ID_SQL =
-            "DELETE FROM todo_item WHERE todo_id = ?";
+
 
     @Override
     public TodoItem create(TodoItem todoItem) {
@@ -130,6 +129,23 @@ public class TodoItemDAOImpl implements TodoItemDAO {
             throw new MySQLException("Error finding TodoItems by done status", e);
         }
         return todoItems;
+    }
+
+
+
+    @Override
+    public boolean deleteById(int todoId) {
+        String SQL = "DELETE FROM todo_item WHERE todo_id = ?";
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, todoId);
+            int affectedRows = preparedStatement.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            throw new MySQLException("Error deleting TodoItem", e);
+        }
     }
 
 

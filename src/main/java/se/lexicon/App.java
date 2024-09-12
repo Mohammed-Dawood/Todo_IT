@@ -33,11 +33,10 @@ public class App {
         System.out.println("Updated person: " + NewPerson);
 
         // Delete person
-        boolean deleted = persondaoimpl.deleteById(3);
-        if (deleted) {
-            System.out.println("person Deleted successfully: ");
+        if (persondaoimpl.deleteById(3)) {
+            System.out.println("person Deleted successfully");
         } else {
-            System.out.println("Person with this ID not found ");
+            System.out.println("Person with this ID not found");
         }*/
 
 
@@ -49,13 +48,20 @@ public class App {
         System.out.println("Created todo item successfully");
 
         // Find all todoitem
-        System.out.println("All persons: " + todoItemDAO.findAll());
+        System.out.println("All Todo items: " + todoItemDAO.findAll());
 
         // Find person by ID
-        System.out.println("Found person: " + todoItemDAO.findById(1));
+        System.out.println("Found Todo item: " + todoItemDAO.findById(1));
 
         // Find By Done Status
-        System.out.println("Found person: " + todoItemDAO.findByDoneStatus(true));
+        System.out.println("Found Todo item: " + todoItemDAO.findByDoneStatus(true));
+
+        // Delete todoitem
+        if (todoItemDAO.deleteById(3)) {
+            System.out.println("Todo item Deleted successfully");
+        } else {
+            System.out.println("Todo item with this ID not found");
+        }
     }
 }
 
