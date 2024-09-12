@@ -1,7 +1,7 @@
 package se.lexicon.model;
 
-import java.time.LocalDate;
 import java.util.Objects;
+import java.time.LocalDate;
 
 public class TodoItem {
     private int todoId;
@@ -12,6 +12,14 @@ public class TodoItem {
     private Person assignee; // Reference to Person
 
     // Constructor
+    public TodoItem(String title, String description, LocalDate deadline, boolean done, Person assignee) {
+        this.title = title;
+        this.description = description;
+        this.deadline = deadline;
+        this.done = done;
+        this.assignee = assignee;
+    }
+
     public TodoItem(int todoId, String title, String description, LocalDate deadline, boolean done, Person assignee) {
         this.todoId = todoId;
         this.title = title;
@@ -70,7 +78,7 @@ public class TodoItem {
         this.assignee = assignee;
     }
 
-    // Override toString, equals, and hashCode methods
+    // toString, equals, and hashCode methods
     @Override
     public String toString() {
         return "TodoItem{" +

@@ -3,6 +3,7 @@ package se.lexicon.dao.database;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import se.lexicon.exception.DBConnectionException;
 
 public class MyConnection {
 
@@ -14,7 +15,7 @@ public class MyConnection {
         try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to connect to the database.", e);
+            throw new DBConnectionException("Failed to connect to Database.");
         }
     }
 }

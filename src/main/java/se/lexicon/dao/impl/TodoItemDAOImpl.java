@@ -1,8 +1,8 @@
 package se.lexicon.dao.impl;
 
-import se.lexicon.dao.TodoItemDAO;
 import se.lexicon.model.Person;
 import se.lexicon.model.TodoItem;
+import se.lexicon.dao.TodoItemDAO;
 import se.lexicon.dao.database.MyConnection;
 
 import java.sql.*;

@@ -8,6 +8,11 @@ public class Person {
     private String lastName;
 
     // Constructor
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public Person(int personId, String firstName, String lastName) {
         this.personId = personId;
         this.firstName = firstName;
