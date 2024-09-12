@@ -1,9 +1,10 @@
 package se.lexicon;
 
+import se.lexicon.dao.impl.TodoItemDAOImpl;
 import se.lexicon.model.Person;
-import se.lexicon.dao.impl.PersonDAOImpl;
+import se.lexicon.model.TodoItem;
 
-import java.util.Collection;
+import java.time.LocalDate;
 
 public class App {
     public static void main(String[] args) {
@@ -42,6 +43,11 @@ public class App {
 
 
         // TodoItemDAOImpl test
+        TodoItemDAOImpl todoItemDAO = new TodoItemDAOImpl();
+        TodoItem createdTodoItem = todoItemDAO.create(new TodoItem("Finish Homework", "Complete Java assignment", LocalDate.now().plusDays(5), false, 7));
+        System.out.println("Created todo item successfully");
+
+
     }
 }
 

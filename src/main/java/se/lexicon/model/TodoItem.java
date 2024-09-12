@@ -9,24 +9,24 @@ public class TodoItem {
     private String description;
     private LocalDate deadline;
     private boolean done;
-    private Person assignee; // Reference to Person
+    private int assigneeId;
 
     // Constructor
-    public TodoItem(String title, String description, LocalDate deadline, boolean done, Person assignee) {
+    public TodoItem(String title, String description, LocalDate deadline, boolean done, int assignee) {
         this.title = title;
         this.description = description;
         this.deadline = deadline;
         this.done = done;
-        this.assignee = assignee;
+        this.assigneeId = assignee;
     }
 
-    public TodoItem(int todoId, String title, String description, LocalDate deadline, boolean done, Person assignee) {
+    public TodoItem(int todoId, String title, String description, LocalDate deadline, boolean done, int assignee) {
         this.todoId = todoId;
         this.title = title;
         this.description = description;
         this.deadline = deadline;
         this.done = done;
-        this.assignee = assignee;
+        this.assigneeId = assignee;
     }
 
     // Getters and Setters
@@ -70,12 +70,12 @@ public class TodoItem {
         this.done = done;
     }
 
-    public Person getAssignee() {
-        return assignee;
+    public int getAssigneeId() {
+        return assigneeId;
     }
 
-    public void setAssignee(Person assignee) {
-        this.assignee = assignee;
+    public void setAssigneeId(int assigneeId) {
+        this.assigneeId = assigneeId;
     }
 
     // toString, equals, and hashCode methods
@@ -87,7 +87,7 @@ public class TodoItem {
                 ", description='" + description + '\'' +
                 ", deadline=" + deadline +
                 ", done=" + done +
-                ", assignee=" + assignee +
+                ", assignee=" + assigneeId +
                 '}';
     }
 
@@ -101,11 +101,11 @@ public class TodoItem {
                 Objects.equals(title, todoItem.title) &&
                 Objects.equals(description, todoItem.description) &&
                 Objects.equals(deadline, todoItem.deadline) &&
-                Objects.equals(assignee, todoItem.assignee);
+                Objects.equals(assigneeId, todoItem.assigneeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(todoId, title, description, deadline, done, assignee);
+        return Objects.hash(todoId, title, description, deadline, done, assigneeId);
     }
 }
