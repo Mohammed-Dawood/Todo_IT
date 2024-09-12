@@ -78,11 +78,11 @@ public class TodoItemDAOImpl implements TodoItemDAO {
     }
 
     @Override
-    public TodoItem findById(int id) {
+    public TodoItem findById(int todoId) {
         try (Connection connection = MyConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_TODOITEM_BY_ID)) {
 
-            stmt.setInt(1, id);
+            stmt.setInt(1, todoId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -118,12 +118,12 @@ public class TodoItemDAOImpl implements TodoItemDAO {
     }
 
     @Override
-    public Collection<TodoItem> findByAssignee(int id) {
+    public Collection<TodoItem> findByAssignee(int todoId) {
         Collection<TodoItem> todoItems = new ArrayList<>();
         try (Connection connection = MyConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_TODOITEMS_BY_ASSIGNEE_ID)) {
 
-            stmt.setInt(1, id);
+            stmt.setInt(1, todoId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -190,11 +190,11 @@ public class TodoItemDAOImpl implements TodoItemDAO {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(int todoId) {
         try (Connection connection = MyConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(DELETE_TODOITEM_BY_ID_SQL)) {
 
-            stmt.setInt(1, id);
+            stmt.setInt(1, todoId);
             int affectedRows = stmt.executeUpdate();
             return affectedRows > 0;
 

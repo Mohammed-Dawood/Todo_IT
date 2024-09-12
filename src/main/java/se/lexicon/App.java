@@ -10,7 +10,7 @@ public class App {
 
         System.out.println("It Is Working....");
 
-        // PersonDAOImpl test
+        /*// PersonDAOImpl test
         PersonDAOImpl persondaoimpl = new PersonDAOImpl();
 
         // Create a new person
@@ -38,8 +38,10 @@ public class App {
             System.out.println("person Deleted successfully: ");
         } else {
             System.out.println("Person with this ID not found ");
-        }
+        }*/
 
+
+        // TodoItemDAOImpl test
     }
 }
 
