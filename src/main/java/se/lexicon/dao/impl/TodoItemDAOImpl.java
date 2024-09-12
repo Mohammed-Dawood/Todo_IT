@@ -14,14 +14,6 @@ import java.util.Collection;
 public class TodoItemDAOImpl implements TodoItemDAO {
 
 
-    private static final String SELECT_TODOITEMS_BY_ASSIGNEE_ID =
-            "SELECT * FROM todo_item WHERE assignee_id = ?";
-    private static final String SELECT_TODOITEMS_BY_UNASSIGNED =
-            "SELECT * FROM todo_item WHERE assignee_id IS NULL";
-    private static final String UPDATE_TODOITEM_SQL =
-            "UPDATE todo_item SET title = ?, description = ?, deadline = ?, done = ?, assignee_id = ? WHERE todo_id = ?";
-
-
     @Override
     public TodoItem create(TodoItem todoItem) {
         String SQL =
@@ -131,7 +123,87 @@ public class TodoItemDAOImpl implements TodoItemDAO {
         return todoItems;
     }
 
+    @Override
+    public Collection<TodoItem> findByAssignee(int assignee_id) {
+        Collection<TodoItem> todoItems = new ArrayList<>();
+        String SQL = "SELECT * FROM todo_item WHERE assignee_id = ?";
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
 
+            preparedStatement.setInt(1, assignee_id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                TodoItem todoItem = new TodoItem(
+                        resultSet.getInt("todo_id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("deadline").toLocalDate(),
+                        resultSet.getBoolean("done"),
+                        resultSet.getInt("assignee_id")
+                );
+                todoItems.add(todoItem);
+            }
+        } catch (SQLException e) {
+            throw new MySQLException("Error finding TodoItems by assignee ID", e);
+        }
+        return todoItems;
+    }
+
+    @Override
+    public Collection<TodoItem> findByAssignee(Person person) {
+        return findByAssignee(person.getPersonId());
+    }
+
+    @Override
+    public Collection<TodoItem> findByUnassignedTodoItems() {
+        Collection<TodoItem> todoItems = new ArrayList<>();
+        String SQL = "SELECT * FROM todo_item WHERE assignee_id IS NULL";
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                TodoItem todoItem = new TodoItem(
+                        resultSet.getInt("todo_id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("deadline").toLocalDate(),
+                        resultSet.getBoolean("done"),
+                        resultSet.getInt("assignee_id")
+                );
+                todoItems.add(todoItem);
+            }
+
+        } catch (SQLException e) {
+            throw new MySQLException("Error finding unassigned TodoItems", e);
+        }
+        return todoItems;
+    }
+
+    @Override
+    public TodoItem update(TodoItem todoItem) {
+        String SQL = "UPDATE todo_item SET title = ?, description = ?, deadline = ?, done = ?, assignee_id = ? WHERE todo_id = ?";
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setString(1, todoItem.getTitle());
+            preparedStatement.setString(2, todoItem.getDescription());
+            preparedStatement.setDate(3, Date.valueOf(todoItem.getDeadline()));
+            preparedStatement.setBoolean(4, todoItem.isDone());
+            preparedStatement.setInt(5, todoItem.getAssigneeId());
+            preparedStatement.setInt(6, todoItem.getTodoId());
+
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new MySQLException("Updating TodoItem failed, no rows affected.");
+            }
+            return todoItem;
+
+        } catch (SQLException e) {
+            throw new MySQLException("Error updating TodoItem", e);
+        }
+    }
 
     @Override
     public boolean deleteById(int todoId) {
@@ -147,6 +219,4 @@ public class TodoItemDAOImpl implements TodoItemDAO {
             throw new MySQLException("Error deleting TodoItem", e);
         }
     }
-
-
 }

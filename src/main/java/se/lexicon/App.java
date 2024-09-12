@@ -1,17 +1,17 @@
 package se.lexicon;
 
-import se.lexicon.dao.impl.TodoItemDAOImpl;
+import java.time.LocalDate;
 import se.lexicon.model.Person;
 import se.lexicon.model.TodoItem;
-
-import java.time.LocalDate;
+import se.lexicon.dao.impl.PersonDAOImpl;
+import se.lexicon.dao.impl.TodoItemDAOImpl;
 
 public class App {
     public static void main(String[] args) {
 
         System.out.println("It Is Working....");
 
-        /*// PersonDAOImpl test
+        // PersonDAOImpl test
         PersonDAOImpl persondaoimpl = new PersonDAOImpl();
 
         // Create a new person
@@ -25,19 +25,17 @@ public class App {
         System.out.println("Found person: " + persondaoimpl.findById(1));
 
         // findByName
-        Collection<Person> foundPersonByName = persondaoimpl.findByName("dawood");
-        System.out.println("Found person: " + foundPersonByName);
+        System.out.println("Found person: " + persondaoimpl.findByName("dawood"));
 
         // Update person
-        Person NewPerson = persondaoimpl.update(new Person(5, "Test", "Testson"));
-        System.out.println("Updated person: " + NewPerson);
+        System.out.println("Updated person: " + persondaoimpl.update(new Person(5, "Test", "Testson")));
 
         // Delete person
         if (persondaoimpl.deleteById(3)) {
             System.out.println("person Deleted successfully");
         } else {
             System.out.println("Person with this ID not found");
-        }*/
+        }
 
 
         // TodoItemDAOImpl test
@@ -55,6 +53,12 @@ public class App {
 
         // Find By Done Status
         System.out.println("Found Todo item: " + todoItemDAO.findByDoneStatus(true));
+
+        // Find By Assignee ID
+        System.out.println("Found Todo item: " + todoItemDAO.findByAssignee(7));
+
+        // Find By Unassigned todoitems
+        System.out.println("Found Todo item: " + todoItemDAO.findByUnassignedTodoItems());
 
         // Delete todoitem
         if (todoItemDAO.deleteById(3)) {

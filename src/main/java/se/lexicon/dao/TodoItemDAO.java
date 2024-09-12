@@ -11,7 +11,10 @@ public interface TodoItemDAO {
     Collection<TodoItem> findAll();
     TodoItem findById(int todoId);
     Collection<TodoItem> findByDoneStatus(boolean doneStatus);
-
+    Collection<TodoItem> findByAssignee(int todoId);
+    Collection<TodoItem> findByAssignee(Person person);
+    Collection<TodoItem> findByUnassignedTodoItems();
+    TodoItem update(TodoItem todoItem);
     boolean deleteById(int todoId);
 
 }
