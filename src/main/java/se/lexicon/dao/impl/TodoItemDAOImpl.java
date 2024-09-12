@@ -1,5 +1,6 @@
 package se.lexicon.dao.impl;
 
+import se.lexicon.exception.MySQLException;
 import se.lexicon.model.Person;
 import se.lexicon.model.TodoItem;
 import se.lexicon.dao.TodoItemDAO;
@@ -12,9 +13,7 @@ import java.util.Collection;
 
 public class TodoItemDAOImpl implements TodoItemDAO {
 
-    // SQL Queries
-    private static final String INSERT_TODOITEM_SQL =
-            "INSERT INTO todo_item (title, description, deadline, done, assignee_id) VALUES (?, ?, ?, ?, ?)";
+
     private static final String SELECT_TODOITEM_BY_ID =
             "SELECT * FROM todo_item WHERE todo_id = ?";
     private static final String SELECT_ALL_TODOITEMS =
@@ -32,31 +31,36 @@ public class TodoItemDAOImpl implements TodoItemDAO {
 
     @Override
     public TodoItem create(TodoItem todoItem) {
+        String SQL =
+                "INSERT INTO todo_item (title, description, deadline, done, assignee_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = MyConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(INSERT_TODOITEM_SQL, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, todoItem.getTitle());
-            stmt.setString(2, todoItem.getDescription());
-            stmt.setDate(3, Date.valueOf(todoItem.getDeadline()));
-            stmt.setBoolean(4, todoItem.isDone());
+            preparedStatement.setString(1, todoItem.getTitle());
+            preparedStatement.setString(2, todoItem.getDescription());
+            preparedStatement.setDate(3, Date.valueOf(todoItem.getDeadline()));
+            preparedStatement.setBoolean(4, todoItem.isDone());
             if (todoItem.getAssignee() != null) {
-                stmt.setInt(5, todoItem.getAssignee().getPersonId());
+                preparedStatement.setInt(5, todoItem.getAssignee().getPersonId());
             } else {
-                stmt.setNull(5, Types.INTEGER);
+                preparedStatement.setNull(5, Types.INTEGER);
             }
-            stmt.executeUpdate();
-
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new MySQLException("Creating todo item failed, no rows affected.");
+            }
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    todoItem.setTodoId(generatedKeys.getInt(1));
+                    return todoItem;
+                } else {
+                    throw new MySQLException("Creating todo item failed, no ID obtained.");
                 }
             }
 
-            return todoItem;
-
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating TodoItem", e);
+            throw new MySQLException("Error occurred while creating todo item: " + todoItem, e);
         }
+
     }
 
     @Override

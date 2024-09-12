@@ -24,7 +24,13 @@ public class PersonDAOImpl implements PersonDAO {
             if (affectedRows == 0) {
                 throw new MySQLException("Creating peron failed, no rows affected.");
             }
-            return person;
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return person;
+                } else {
+                    throw new MySQLException("Creating person failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             throw new MySQLException("Error occurred while creating user: " + person, e);
         }
