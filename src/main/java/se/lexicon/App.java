@@ -22,8 +22,7 @@ public class App {
         System.out.println("All persons: " + persondaoimpl.findAll());
 
         // Find person by ID
-        Person foundPersonById = persondaoimpl.findById(1);
-        System.out.println("Found person: " + foundPersonById);
+        System.out.println("Found person: " + persondaoimpl.findById(1));
 
         // findByName
         Collection<Person> foundPersonByName = persondaoimpl.findByName("dawood");
@@ -51,6 +50,9 @@ public class App {
 
         // Find all todoitem
         System.out.println("All persons: " + todoItemDAO.findAll());
+
+        // Find person by ID
+        System.out.println("Found person: " + todoItemDAO.findById(1));
     }
 }
 

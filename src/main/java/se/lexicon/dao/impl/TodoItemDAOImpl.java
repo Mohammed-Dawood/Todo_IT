@@ -14,9 +14,6 @@ import java.util.Collection;
 public class TodoItemDAOImpl implements TodoItemDAO {
 
 
-    private static final String SELECT_TODOITEM_BY_ID =
-            "SELECT * FROM todo_item WHERE todo_id = ?";
-
     private static final String SELECT_TODOITEMS_BY_DONE_STATUS =
             "SELECT * FROM todo_item WHERE done = ?";
     private static final String SELECT_TODOITEMS_BY_ASSIGNEE_ID =
@@ -84,5 +81,30 @@ public class TodoItemDAOImpl implements TodoItemDAO {
         return todoItems;
     }
 
+    @Override
+    public TodoItem findById(int todoId) {
+        String SQL = "SELECT * FROM todo_item WHERE todo_id = ?";
+
+        try (Connection connection = MyConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, todoId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new TodoItem(
+                        resultSet.getInt("todo_id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("deadline").toLocalDate(),
+                        resultSet.getBoolean("done"),
+                        resultSet.getInt("assignee_id")
+                );
+            }
+        } catch (SQLException e) {
+            throw new MySQLException("Error finding TodoItem by ID", e);
+        }
+        return null;
+    }
 
 }
