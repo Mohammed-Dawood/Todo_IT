@@ -44,10 +44,13 @@ public class App {
 
         // TodoItemDAOImpl test
         TodoItemDAOImpl todoItemDAO = new TodoItemDAOImpl();
+
+        // Create a new todoitem
         TodoItem createdTodoItem = todoItemDAO.create(new TodoItem("Finish Homework", "Complete Java assignment", LocalDate.now().plusDays(5), false, 7));
         System.out.println("Created todo item successfully");
 
-
+        // Find all todoitem
+        System.out.println("All persons: " + todoItemDAO.findAll());
     }
 }
 

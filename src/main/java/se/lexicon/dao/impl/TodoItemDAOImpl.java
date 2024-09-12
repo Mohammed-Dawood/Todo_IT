@@ -59,6 +59,30 @@ public class TodoItemDAOImpl implements TodoItemDAO {
 
     }
 
+    @Override
+    public Collection<TodoItem> findAll() {
+        Collection<TodoItem> todoItems = new ArrayList<>();
+        String SQL = "SELECT * FROM todo_item";
+        try (Connection connection = MyConnection.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL);) {
+
+            while (resultSet.next()) {
+                TodoItem todoItem = new TodoItem(
+                        resultSet.getInt("todo_id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("deadline").toLocalDate(),
+                        resultSet.getBoolean("done"),
+                        resultSet.getInt("assignee_id")
+                );
+                todoItems.add(todoItem);
+            }
+        } catch (SQLException e) {
+            throw new MySQLException("Error occurred while finding todoitem: " + e);
+        }
+        return todoItems;
+    }
 
 
 }
